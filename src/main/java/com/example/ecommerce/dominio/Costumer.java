@@ -1,10 +1,20 @@
 package com.example.ecommerce.dominio;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class Client extends Person {
+
+@Entity
+public class Costumer extends Person {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @NotNull(message = "Name is required")
     @NotEmpty(message = "Name is required")
@@ -16,10 +26,18 @@ public class Client extends Person {
     @Size(max = 20, message = "Enter a valid CPF")
     private String cpf;
 
-    public Client(String email, String phone, String street, String district, String complement, String cep, String city, String state, String name, String cpf) {
-        super(email, phone, street, district, complement, cep, city, state);
+    @Deprecated
+    protected Costumer(){}
+
+    public Costumer(Contact contact, Address address, Long id, String name, String cpf) {
+        super(contact, address);
+        this.id = id;
         this.name = name;
         this.cpf = cpf;
+        isValid();
+    }
+    public Long getId() {
+        return id;
     }
 
     public String getName() {
@@ -29,4 +47,6 @@ public class Client extends Person {
     public String getCpf() {
         return cpf;
     }
+
+
 }

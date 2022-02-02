@@ -1,7 +1,8 @@
 package com.example.ecommerce.dominio;
 
-import org.springframework.beans.factory.annotation.Value;
-
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -10,15 +11,18 @@ import java.util.List;
 
 public class Order {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private LocalDateTime dataCompra;
 
     @NotNull(message = "Provider is required")
     @NotEmpty(message = "Provider is required")
-    private Provider provider;
+    private Supplier supplier;
     @NotNull(message = "Client is required")
     @NotEmpty(message = "Client is required")
-    private Client client;
+    private Costumer costumer;
 
 
     private Double valorTotal;
@@ -30,10 +34,10 @@ public class Order {
     @Size(min = 1, message = "Order should have at least 1 item")
     private List<Item> itens;
 
-    public Order(LocalDateTime dataCompra, Provider provider, Client client, Double valorTotal, Double valorTotalItens, Double valorFrete, List<Item> itens) {
+    public Order(Long id, LocalDateTime dataCompra, Supplier supplier, Costumer costumer, Double valorTotal, Double valorTotalItens, Double valorFrete, List<Item> itens) {
         this.dataCompra = dataCompra;
-        this.provider = provider;
-        this.client = client;
+        this.supplier = supplier;
+        this.costumer = costumer;
         this.valorTotal = valorTotal;
         this.valorTotalItens = valorTotalItens;
         this.valorFrete = valorFrete;
@@ -44,12 +48,12 @@ public class Order {
         return dataCompra;
     }
 
-    public Provider getProvider() {
-        return provider;
+    public Supplier getProvider() {
+        return supplier;
     }
 
-    public Client getClient() {
-        return client;
+    public Costumer getClient() {
+        return costumer;
     }
 
     public Double getValorTotal() {
