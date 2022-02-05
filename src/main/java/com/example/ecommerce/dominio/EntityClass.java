@@ -8,16 +8,16 @@ import java.util.HashSet;
 import java.util.Set;
 
 @MappedSuperclass
-public abstract class Entity {
+public abstract class EntityClass {
     public void isValid() {
         Configuration<?> configuracaoes = Validation.byDefaultProvider().configure();
         ValidatorFactory fabrica = configuracaoes.buildValidatorFactory();
         Validator validador = fabrica.getValidator();
-        Set<ConstraintViolation<Entity>> regrasVioladas = validador.validate(this);
+        Set<ConstraintViolation<EntityClass>> regrasVioladas = validador.validate(this);
 
         Set<String> messages = new HashSet<>();
 
-        for (ConstraintViolation<Entity> constraintViolation : regrasVioladas) {
+        for (ConstraintViolation<EntityClass> constraintViolation : regrasVioladas) {
             String campo = constraintViolation.getPropertyPath().toString();
             String msg = constraintViolation.getMessage();
             messages.add(campo.concat(" : ").concat(msg));

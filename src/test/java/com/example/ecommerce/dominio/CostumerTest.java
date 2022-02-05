@@ -25,14 +25,14 @@ public class CostumerTest {
     }
     @Test
     public void shouldCreateAInvalidClientSuccessfully(){
-        Long id_client = 12456L;
+        Long id = 12456L;
         String name = "";
         String cpf = "";
         Contact contact = new Contact("","");
         Address address = new Address("","","","","","");
 
         try {
-            Costumer model = new Costumer(contact, address,id_client,name,cpf);
+            Costumer model = new Costumer(contact, address,id,name,cpf);
         }catch (InvalidDomain e){
             String message = "[adress.city : Cidade é obrigatória, contact.email : Email é obrigatório, adress.street : Rua é obrigatória, name : Name is required, adress.district : Bairro é obrigatório, adress.cep : CEP é obrigatório, cpf : CPF is required, contact.phone : Telefone é obrigatório, adress.state : Estado é obrigatório]";
             Assertions.assertEquals(e.getMessage(), message);

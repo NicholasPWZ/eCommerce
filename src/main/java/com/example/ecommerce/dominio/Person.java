@@ -8,7 +8,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 @MappedSuperclass
-public abstract class Person extends Entity {
+public abstract class Person extends EntityClass {
     @Valid
     @NotNull(message = "Contato é obrigatório")
     public Contact contact;

@@ -1,5 +1,6 @@
 package com.example.ecommerce.dominio;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -7,6 +8,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+@Entity
 public class Supplier extends Person{
 
     @Id
@@ -23,11 +25,16 @@ public class Supplier extends Person{
     @Size(max = 20, message = "Enter a valid CNPJ")
     private String cnpj;
 
-    public Supplier(Contact contact, Address address, Long id_provider, String nomeFantasia, String cnpj) {
+    @Deprecated
+    protected Supplier(){
+
+    }
+    public Supplier(Contact contact, Address address, Long id, String nomeFantasia, String cnpj) {
         super(contact, address);
-        this.id = id_provider;
+        this.id = id;
         this.nomeFantasia = nomeFantasia;
         this.cnpj = cnpj;
+        isValid();
     }
 
 
