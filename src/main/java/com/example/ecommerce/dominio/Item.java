@@ -1,22 +1,43 @@
 package com.example.ecommerce.dominio;
 
+import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-public class Item {
+@Entity
+public class Item extends EntityClass {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "item_id")
+    private Long id;
+
+
+    @ManyToOne
     @NotNull(message = "Product is required")
-    @NotEmpty(message = "Product is required")
+    @JoinColumn(name = "product_id")
     private Product product;
 
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
+
+    @NotNull(message = "Quantity is required")
     private int qtd;
 
-    private Double valorTotalItem;
+    private Double value;
 
-    public Item(Product product, int qtd, Double valorTotalItem) {
+    @Deprecated
+    protected Item(){
+
+    }
+
+    public Item(Long id,Product product, int qtd, Double value) {
+        this.id = id;
         this.product = product;
         this.qtd = qtd;
-        this.valorTotalItem = valorTotalItem;
+        this.value = value;
     }
 
     public Product getProduct() {
@@ -27,7 +48,8 @@ public class Item {
         return qtd;
     }
 
-    public Double getValorTotalItem() {
-        return valorTotalItem;
+    public Double getValue() {
+
+        return value = product.getValorUnitario() * qtd;
     }
 }

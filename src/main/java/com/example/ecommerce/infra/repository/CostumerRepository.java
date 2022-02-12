@@ -11,8 +11,8 @@ import java.util.List;
 @Repository
 public interface CostumerRepository  extends JpaRepository<Costumer,Long> {
 
-    @Query("SELECT count(c) FROM Costumer c where c.cpf = : cpf")
-    public int validarPorCpf(@Param("cpf")String CPF);
+    @Query("SELECT count(c) FROM Costumer c where c.cpf = :cpf")
+    public int validarPorCpf(@Param("cpf")String cpf);
 
 
 }

@@ -4,7 +4,7 @@ import com.example.ecommerce.infra.Exception.InvalidDomain;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-
+import static org.junit.jupiter.api.Assertions.*;
 public class ProductTest {
     @Test
     public void ShouldCreateAProduct(){
@@ -27,6 +27,7 @@ public class ProductTest {
         Double value = 1.0;
         try {
             Product model = new Product(id,name,description,value);
+            fail("Test didn´t break");
         }catch (InvalidDomain e){
             Assertions.assertFalse(e.getMessage().isEmpty());
         }

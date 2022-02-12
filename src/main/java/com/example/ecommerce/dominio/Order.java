@@ -1,27 +1,35 @@
 package com.example.ecommerce.dominio;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "Pedido")
 public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "order_id")
     private Long id;
 
     private LocalDateTime dataCompra;
 
-    @NotNull(message = "Provider is required")
-    @NotEmpty(message = "Provider is required")
+    @Valid
+    @ManyToOne
+    @JoinColumn(name = "supplier_id")
+    @NotNull(message = "Supplier is required")
     private Supplier supplier;
-    @NotNull(message = "Client is required")
-    @NotEmpty(message = "Client is required")
+
+    @Valid
+    @ManyToOne
+    @JoinColumn(name = "costumer_id")
+    @NotNull(message = "Costumer is required")
     private Costumer costumer;
 
 
@@ -31,37 +39,48 @@ public class Order {
 
     private Double valorFrete;
 
-    @Size(min = 1, message = "Order should have at least 1 item")
-    private List<Item> itens;
+    @OneToMany(mappedBy = "order", cascade = {CascadeType.PERSIST})
+    private List<Item> itens = new ArrayList<>();
 
-    public Order(Long id, LocalDateTime dataCompra, Supplier supplier, Costumer costumer, Double valorTotal, Double valorTotalItens, Double valorFrete, List<Item> itens) {
-        this.dataCompra = dataCompra;
+    @Deprecated
+    public Order(){
+
+    }
+    public Order(Long id, Supplier supplier, Costumer costumer, Double valorTotal, Double valorTotalItens, Double valorFrete, Item item) {
+        this.id = id;
+        this.dataCompra = LocalDateTime.now();
         this.supplier = supplier;
         this.costumer = costumer;
         this.valorTotal = valorTotal;
         this.valorTotalItens = valorTotalItens;
         this.valorFrete = valorFrete;
-        this.itens = itens;
+        addItem(item);
     }
+    public Long id (){return id;}
 
     public LocalDateTime getDataCompra() {
         return dataCompra;
     }
 
-    public Supplier getProvider() {
+    public Supplier getSupplier() {
         return supplier;
     }
 
-    public Costumer getClient() {
+    public Costumer getCostumer() {
         return costumer;
     }
 
     public Double getValorTotal() {
-        return valorTotal;
+        return getValorFrete() + getValorTotalItens();
     }
 
     public Double getValorTotalItens() {
-        return valorTotalItens;
+        double value = 0;
+        for(Item item : itens){
+            value += item.getValue();
+        }
+
+        return value;
     }
 
     public Double getValorFrete() {
@@ -70,5 +89,11 @@ public class Order {
 
     public List<Item> getItens() {
         return itens;
+    }
+    public void addItem(Item item){
+        if (item == null){
+            return;
+        }
+        this.itens.add(item);
     }
 }

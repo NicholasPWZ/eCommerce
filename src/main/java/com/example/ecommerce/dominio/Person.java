@@ -3,10 +3,13 @@ package com.example.ecommerce.dominio;
 
 
 
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.MappedSuperclass;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @MappedSuperclass
 public abstract class Person extends EntityClass {
     @Valid
